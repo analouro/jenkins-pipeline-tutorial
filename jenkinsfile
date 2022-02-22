@@ -12,7 +12,10 @@ pipeline {
                 sh 'sudo apt-get update'
                 sh 'sudo apt update'
                 sh 'sudo curl "https://get.docker.com" | sudo bash'
-                sh 'sudo apt install docker-ce docker-ce-cli containerd.io'           
+                sh 'sudo apt install docker-ce docker-ce-cli containerd.io'
+                sh 'mkdir -p ~/.docker/cli-plugins/'
+                sh 'curl -SL "https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64" -o ~/.docker/cli-plugins/docker-compose'
+                sh 'chmod +x ~/.docker/cli-plugins/docker-compose' 
             }    
         }
         stage('Verify'){
