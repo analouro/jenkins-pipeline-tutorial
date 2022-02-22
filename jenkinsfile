@@ -1,14 +1,13 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
-            steps { 
+        stage('Build'){
+            steps{ 
                     sh "git clone https://gitlab.com/qacdevops/chaperootodo_client.git"
             }
         }
-        stage('Install Docker and Docker compose') {
-            steps {
-                // Install Docker and Docker compose
+        stage('Install Docker and Docker compose'){
+            steps{
                 sh "curl https://get.docker.com | sudo bash1~curl https://get.docker.com | sudo bash1~ curl https://get.docker.com | sudo bash1~curl https://get.docker.com | sudo bash1~sudo apt-get remove docker docker-engine docker.io containerd runc"
                 sh "sudo apt-get update"
                 sh "sudo apt-get install \
@@ -26,16 +25,14 @@ pipeline {
                 sh "sudo chmod +x /usr/local/bin/docker-compose"
             }
         }
-        stage('Verify') {
-            steps {
-                // Verify if Docker and Docker composer are installed
+        stage('Verify'){
+            steps{
                 sh "sudo docker run hello-world"
                 sh "docker-compose --version"
            }
         }
-        stage('Deploy') {
-            steps {
-                //Deploy 
+        stage('Deploy'){
+            steps{
                 sh "sudo docker-compose pull && sudo -E DB_PASSWORD=${DB_PASSWORD} docker-compose up -d
             }
         }
