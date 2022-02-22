@@ -1,15 +1,43 @@
-pipeline{
-        agent any
-        stages{
-            stage('Make Directory'){
-                steps{
-                    sh "mkdir ~/jenkins-tutorial-test"
-                }
-            }
-            stage('Make Files'){
-                steps{
-                    sh "touch ~/jenkins-tutorial-test/file1 ~/jenkins-tutorial-test/file2"
-                }
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps { 
+                    sh "git clone https://gitlab.com/qacdevops/chaperootodo_client.git"
             }
         }
+        stage('Install Docker and Docker compose') {
+            steps {
+                // Install Docker and Docker compose
+                sh "curl https://get.docker.com | sudo bash1~curl https://get.docker.com | sudo bash1~ curl https://get.docker.com | sudo bash1~curl https://get.docker.com | sudo bash1~sudo apt-get remove docker docker-engine docker.io containerd runc"
+                sh "sudo apt-get update"
+                sh "sudo apt-get install \
+                         ca-certificates \
+                         curl \
+                         gnupg \
+                         lsb-release
+                sh "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
+                sh "echo" \
+                         "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null"
+                sh "sudo apt-get update"
+                sh "sudo apt-get install docker-ce docker-ce-cli containerd.io"
+                sh "sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                sh "sudo chmod +x /usr/local/bin/docker-compose"
+            }
+        }
+        stage('Verify') {
+            steps {
+                // Verify if Docker and Docker composer are installed
+                sh "sudo docker run hello-world"
+                sh "docker-compose --version"
+           }
+        }
+        stage('Deploy') {
+            steps {
+                //Deploy 
+                sh "sudo docker-compose pull && sudo -E DB_PASSWORD=${DB_PASSWORD} docker-compose up -d
+            }
+        }
+    }
 }
