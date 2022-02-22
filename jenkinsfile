@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Verify'){
             steps{
-                sh "sudo docker run hello-world"
+                sh "docker --version"
                 sh "docker-compose --version"
            }
         }
