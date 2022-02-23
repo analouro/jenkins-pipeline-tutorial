@@ -1,2 +1,2 @@
 # jenkins-pipeline-tutorial
-QA Community Tutorial - CI/CD Intermediate - Pipeline
+QA Community Exercise - CI/CD Intermediate - Pipeline
